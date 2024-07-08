@@ -30,9 +30,9 @@ fi
 # `pactl list sinks` shows sink properties with a mix of english language and local language
 # defined by LANG env var, so we unset the var to guarantee only the fallback language is used
 unset LANG;
-sink_list="$(wpctl status | sed -n '/^Audio/,/Source endpoints:/p' | sed -n '/Sources:/,/|\s*$/p' | head -n -2 | tail -n +2 | tr -d '│')"
+source_list="$(wpctl status | sed -n '/^Audio/,/^\s*$/p' | sed -n '/Sources:/,/│\s*$/p' | head -n +2 | tail -n +2 | tr -d '│')"
 
-CONTENT="$sink_list"
+CONTENT="$source_list"
 let "WIDTH = $(wc -L <<< "$CONTENT")"
 OPTION_SELECTED=$(echo "$CONTENT" \
   | rofi -dmenu -m -3 -width -$WIDTH -lines 2 -markup-rows "${ROFI_OPTIONAL_ARGS[@]}"  \
